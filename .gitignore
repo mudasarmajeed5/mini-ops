@@ -1,0 +1,26 @@
+## Backend
+mini-ops-backend/node_modules
+mini-ops-backend/.env
+mini-ops-backend/drizzle
+
+## Frontend
+mini-ops-frontend/node_modules
+mini-ops-frontend/dist
+mini-ops-frontend/dist-ssr
+mini-ops-frontend/*.local
+mini-ops-frontend/logs
+mini-ops-frontend/*.log
+mini-ops-frontend/npm-debug.log*
+mini-ops-frontend/yarn-debug.log*
+mini-ops-frontend/yarn-error.log*
+mini-ops-frontend/pnpm-debug.log*
+mini-ops-frontend/lerna-debug.log*
+mini-ops-frontend/.vscode/*
+!mini-ops-frontend/.vscode/extensions.json
+mini-ops-frontend/.idea
+mini-ops-frontend/.DS_Store
+mini-ops-frontend/*.suo
+mini-ops-frontend/*.ntvs*
+mini-ops-frontend/*.njsproj
+mini-ops-frontend/*.sln
+mini-ops-frontend/*.sw?
