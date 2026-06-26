@@ -24,3 +24,4 @@ mini-ops-frontend/*.ntvs*
 mini-ops-frontend/*.njsproj
 mini-ops-frontend/*.sln
 mini-ops-frontend/*.sw?
+mini-ops-backend/.idea
