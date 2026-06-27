@@ -1,5 +1,5 @@
 import type {Request, Response} from "express";
-import {Service, services} from "../db/schema.ts";
+import {type Service, services} from "../db/schema.ts";
 import db from "../db/connection.ts";
 import {and, eq} from "drizzle-orm"
 
