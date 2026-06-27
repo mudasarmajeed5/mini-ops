@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "types": ["node"],
+        "exclude": ["node_modules"],
         "allowImportingTsExtensions": true,
         "noEmit": true
     }
