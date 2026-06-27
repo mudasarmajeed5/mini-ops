@@ -22,3 +22,26 @@ export const validateBody = (schema: ZodType) => {
     }
   };
 };
+
+export const validateParams = (schema: ZodType )=>{
+  return (req: Request, res: Response, next: NextFunction) => {
+    try{
+      const validatedParams = schema.parse(req.params)
+      req.params = validatedParams as Request["params"]
+      next()
+
+    }
+    catch(e) {
+      if (e instanceof ZodError) {
+        return res.status(400).json({
+          error: "Validation Failed",
+          details: e.issues.map((error) => ({
+            field: error.path.join("."),
+            message: error.message,
+          }))
+        })
+      }
+      next(e);
+    }
+  }
+}
