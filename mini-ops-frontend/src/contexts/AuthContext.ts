@@ -7,6 +7,7 @@ export type CredentialsType = {
     email: string,
     password: string
 }
+
 type AuthContextType = {
     isLoading: boolean,
     isAuthenticated: boolean,
