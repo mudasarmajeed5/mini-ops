@@ -1,37 +1,34 @@
 import {type ReactNode, useEffect, useState} from "react"
 import {AuthContext, type CredentialsType} from "./AuthContext.ts";
+import type {AuthResult} from "@/src/types/User.ts";
+import * as authApi from "@/src/api/auth.ts"
 
 type AuthProviderProps = {
     children: ReactNode
 }
-type AuthResult = {
-    success: boolean,
-    message: string
-}
+
 export const AuthProvider = ({children}: AuthProviderProps) => {
     const [isLoading, setIsLoading] = useState(true)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [error, setError] = useState('')
+    const [user, setUser] = useState<AuthResult["user"]>({id: "", email: ""})
 
-
-    const handleLogout = async (): Promise<AuthResult> => {
-        const response = await fetch("/api/auth/logout", {
-            method: "GET",
-        });
-        const result = await response.json()
-        if (response.ok) {
-            setIsAuthenticated(false)
-            return {
-                success: true,
-                message: result.message
+    const handleLogout = async () => {
+        setIsLoading(true)
+        try {
+            const result = await authApi.logout()
+            if (result.success) {
+                setIsAuthenticated(false)
             }
-        }
-        return{
-            success: false,
-            message: "Failed to logout"
+
+        } catch {
+            setIsAuthenticated(true)
+            setError("Server is unavailable")
+        } finally {
+            setIsLoading(false)
         }
     };
-    const handleRegister = async (credentials: CredentialsType):Promise<AuthResult> => {
+    const handleRegister = async (credentials: CredentialsType): Promise<AuthResult> => {
         setIsLoading(true);
         const response = await fetch("/api/auth/register", {
             method: "POST",
@@ -56,7 +53,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
             }
         }
     };
-    const handleLogin = async (credentials: CredentialsType):Promise<AuthResult> => {
+    const handleLogin = async (credentials: CredentialsType): Promise<AuthResult> => {
         setIsLoading(true);
         const response = await fetch("/api/auth/login", {
             method: "POST",
@@ -91,9 +88,8 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
                 if (response.ok) {
                     setIsAuthenticated(true)
                 }
-                if (response.status == 502) {
-                    setError("Server is unavailable")
-                }
+                const result = await response.json()
+                setUser(result.user)
 
             } catch (error) {
                 if (error instanceof Error) {
@@ -104,13 +100,14 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
                 setIsLoading(false)
             }
         }
-        checkAuth()
+        void checkAuth()
     }, []);
     return (
         <AuthContext value={{
             isAuthenticated,
             isLoading,
             error,
+            user,
             logout: handleLogout,
             login: handleLogin,
             register: handleRegister

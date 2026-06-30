@@ -18,7 +18,7 @@ export const createService = async (req: Request, res: Response) => {
         if (!service) {
             return res.json({message: "Failed to insert service", success: false})
         }
-        return res.status(200).json({service, message: "Service created"})
+        return res.status(200).json({service, message: "Service created", success: true})
     } catch (error) {
         return res.status(500).json({message: (error as Error).message, success: false})
     }
@@ -39,7 +39,7 @@ export const deleteService = async (req: Request, res: Response) => {
         if (!deletedService) {
             return res.status(404).json({message: "Service not found", success: false})
         }
-        return res.status(200).json({message: "Service deleted", success: true, deletedService})
+        return res.status(200).json({message: "Service deleted", success: true, service: deletedService})
     } catch (error) {
         return res.status(500).json({message: (error as Error).message, success: false})
     }
@@ -59,7 +59,7 @@ export const updateService = async (req: Request, res: Response) => {
         if (!updateService) {
             return res.status(404).json({message: "Service not found", success: false});
         }
-        return res.status(200).json({message: "Service updated", success: true, updateService})
+        return res.status(200).json({message: "Service updated", success: true, service: updateService})
     } catch (error) {
         return res.status(500).json({
             message: (error as Error).message,
@@ -71,7 +71,10 @@ export const getServices = async (req: Request, res: Response) => {
     try {
         const userId = req.user!.id;
         const userServices: Service[] = await db.select().from(services).where(eq(services.userId, userId));
-        return res.status(200).json({services: userServices || []})
+        return res.status(200).json({
+            success: true,
+            message:"Services Fetched successfully",
+            services: userServices || []})
     } catch (error) {
         return res.status(500).json({message: (error as Error).message, success: false})
     }

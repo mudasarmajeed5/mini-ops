@@ -35,7 +35,7 @@ export const login = async (req: Request, res: Response) => {
       })
       .status(200)
       .json({
-        message: "Login successfull",
+        message: "Login successful",
         success: true,
         user: {
           id: user.id,
@@ -89,7 +89,7 @@ export const register = async (req: Request, res: Response) => {
       .json({
         success: true,
         message: "Account Created",
-        user,
+        user: user,
       });
   } catch (error) {
     res.status(500).json({ success: false, message: "Failed to create user" });
@@ -112,7 +112,11 @@ export const getMe = async (req: Request, res: Response) => {
       });
     }
 
-    return res.json(user);
+    return res.json({
+      success: true,
+      message: "User fetched successfully",
+      user: user
+    });
   } catch (error) {
     return res.status(500).json({
       message: "Internal Server Error",
@@ -125,5 +129,5 @@ export const logout = (_req: Request, res: Response) => {
   res.clearCookie("token").status(200).json({
     message: "Logged out",
     success: true,
-  });
+  })
 };

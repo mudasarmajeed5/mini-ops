@@ -3,7 +3,7 @@ import {createRoot} from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import Dashboard from "./components/Dashboard.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
 import Authentication from "./components/Authentication.tsx";
 import {Toaster} from "sonner";
 import {AuthProvider} from "./contexts/AuthProvider.tsx";

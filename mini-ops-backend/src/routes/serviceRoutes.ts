@@ -17,7 +17,7 @@ const updateServiceBody = z.object({
     baseUrl: z.url()
 })
 router.get('/', authenticate, getServices)
-router.put('/:id', authenticate,validateParams(serviceUUID),validateBody(updateServiceBody),  updateService)
+router.patch('/:id', authenticate,validateParams(serviceUUID),validateBody(updateServiceBody),  updateService)
 router.delete('/:id', authenticate, validateParams(serviceUUID), deleteService)
 router.post('/', authenticate, validateBody(createServiceBody), createService)
 
